@@ -2,8 +2,12 @@
 
 import { gql, useQuery } from "@apollo/client";
 import Link from "next/link";
+import Dishes from "../dishes/index";
+import { useContext, useState } from "react";
+import AppContext from "../../context/AppContext";
 
 import {
+  Button,
   Card,
   CardBody,
   CardImg,
@@ -11,6 +15,7 @@ import {
   CardTitle,
   Row,
   Col,
+  Container,
 } from "reactstrap";
 
 const QUERY = gql`
@@ -35,6 +40,9 @@ const QUERY = gql`
 `;
 
 function RestaurantList(props) {
+  const [restaurantID, setRestaurantID] = useState(0);
+  const { cart } = useContext(AppContext);
+  const [state, setState] = useState(cart);
   const { loading, error, data } = useQuery(QUERY);
   if (error) return "Error loading restaurants";
   //if restaurants are returned from the GraphQL query, run the filter query
@@ -45,49 +53,59 @@ function RestaurantList(props) {
     const searchQuery = data.restaurants.data.filter((query) =>
       query.attributes.name.toLowerCase().includes(props.search)
     );
+    const renderDishes = (restaurantID) => {
+      return <Dishes restId={restaurantID}> </Dishes>;
+    };
     if (searchQuery.length != 0) {
+      const restList = searchQuery.map((res) => (
+        <Col xs="6" sm="4" key={res.id}>
+          <Card style={{ margin: "0 0.5rem 20px 0.5rem" }}>
+            <CardImg
+              top={true}
+              style={{ height: 250 }}
+              src={`${process.env.STRAPI_URL || "http://localhost:1337"}${
+                res?.attributes?.image?.data?.attributes?.url
+              }`}
+            />
+            <CardBody>
+              <CardTitle tag="h5">{res.attributes.name}</CardTitle>
+              <CardText>{res.attributes.description}</CardText>
+            </CardBody>
+            <div className="card-footer">
+              <Link href={`/restaurant/${res.id}`} legacyBehavior>
+                <a className="btn btn-dark">View</a>
+              </Link>
+              <Button color="info" onClick={() => setRestaurantID(res.id)}>
+                {res.attributes.name}
+              </Button>
+            </div>
+          </Card>
+        </Col>
+      ));
       return (
-        <Row>
-          {searchQuery.map((res) => (
-            <Col xs="6" sm="4" key={res.id}>
-              <Card style={{ margin: "0 0.5rem 20px 0.5rem" }}>
-                <CardImg
-                  top={true}
-                  style={{ height: 250 }}
-                  src={`${process.env.STRAPI_URL || "http://localhost:1337"}${
-                    res?.attributes?.image?.data?.attributes?.url
-                  }`}
-                />
-                <CardBody>
-                  <CardTitle tag="h5">{res.attributes.name}</CardTitle>
-                  <CardText>{res.attributes.description}</CardText>
-                </CardBody>
-                <div className="card-footer">
-                  <Link href={`/restaurant/${res.id}`} legacyBehavior>
-                    <a className="btn btn-primary">View</a>
-                  </Link>
-                </div>
-              </Card>
-            </Col>
-          ))}
-          <style jsx global>
-            {`
-              a {
-                color: white;
-              }
-              a:link {
-                text-decoration: none;
-                color: white;
-              }
-              a:hover {
-                color: white;
-              }
-              .card-columns {
-                column-count: 3;
-              }
-            `}
-          </style>
-        </Row>
+        <Container>
+          <Row xs="3">
+            {restList}
+            <style jsx global>
+              {`
+                a {
+                  color: white;
+                }
+                a:link {
+                  text-decoration: none;
+                  color: white;
+                }
+                a:hover {
+                  color: white;
+                }
+                .card-columns {
+                  column-count: 3;
+                }
+              `}
+            </style>
+          </Row>
+          <Row xs="3">{renderDishes(restaurantID)}</Row>
+        </Container>
       );
     } else {
       return <h1>No Restaurants Found</h1>;

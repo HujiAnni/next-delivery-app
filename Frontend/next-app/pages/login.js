@@ -35,8 +35,11 @@ function Login(props) {
           <div className="paper">
             <div className="header">
               <img
-                src="https://media.licdn.com/dms/image/C4E0BAQE9KA1uqQuByg/company-logo_100_100/0/1679414245105?e=1696464000&v=beta&t=gV3u0tMVBuY0Xml3rMsaZvbBcjZsyqiWonD_dsE0ulw"
-                style={{ width: "75%" }}
+                src="https://www.shutterstock.com/image-vector/covid19-coronavirus-epidemic-delivery-service-260nw-1697742205.jpg"
+                style={{
+                  width: "77%",
+                  borderRadius: "5px",
+                }}
               />
             </div>
             <section className="wrapper">
@@ -84,7 +87,7 @@ function Login(props) {
                         float: "right",
                         width: 120,
                       }}
-                      color="primary"
+                      color="dark"
                       onClick={() => {
                         setLoading(true);
                         login(data.identifier, data.password)
@@ -124,7 +127,7 @@ function Login(props) {
           .header {
             width: 100%;
             height: 120px;
-            background-color: #2196f3;
+            background-color: #343a40;
             margin-bottom: 30px;
             border-radius-top: 6px;
           }
