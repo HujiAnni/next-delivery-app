@@ -1,10 +1,12 @@
 /* /pages/restaurant/[id].js */
 
 import { useContext } from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/router";
 import { gql, useQuery } from "@apollo/client";
 import Cart from "../../components/cart/";
 import AppContext from "../../context/AppContext";
+import Dishes from "@/components/dishes";
 import {
   Button,
   Card,
@@ -14,6 +16,8 @@ import {
   CardTitle,
   Col,
   Row,
+  Input,
+  InputGroup,
 } from "reactstrap";
 const GET_RESTAURANT_DISHES = gql`
   query ($id: ID!) {
@@ -44,9 +48,11 @@ const GET_RESTAURANT_DISHES = gql`
     }
   }
 `;
+
 function Restaurants(props) {
   const appContext = useContext(AppContext);
   const router = useRouter();
+  const [query, updateQuery] = useState("");
   const { loading, error, data } = useQuery(GET_RESTAURANT_DISHES, {
     variables: { id: router.query.id },
   });
@@ -54,9 +60,25 @@ function Restaurants(props) {
   if (loading) return <h1>Loading ...</h1>;
   if (data.restaurant.data.attributes.dishes.data.length) {
     const { restaurant } = data;
+
     return (
       <>
         <h1>{restaurant.data.attributes.name}</h1>
+        <div className="search">
+          <InputGroup>
+            <div className="input-group-append">
+              <span className="input-group-text" id="basic-addon2">
+                Search
+              </span>
+            </div>
+            <Input
+              onChange={(e) => updateQuery(e.target.value.toLocaleLowerCase())}
+              value={query}
+            />
+          </InputGroup>
+        </div>
+        <br></br>
+        <Dishes search={query} />
         <Row>
           {restaurant.data.attributes.dishes.data.map((res) => {
             let ress = { res };

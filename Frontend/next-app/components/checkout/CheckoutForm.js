@@ -26,7 +26,9 @@ function CheckoutForm() {
     // update the state data object
     setData({ ...data, updateItem });
     console.log(data);
+    console.log(data.address);
   }
+
   async function submitOrder() {
     // event.preventDefault();
     // // Use elements.getElement to get a reference to the mounted Element.
@@ -36,9 +38,12 @@ function CheckoutForm() {
     // get token back from stripe to process credit card
     const token = await stripe.createToken(cardElement);
     const userToken = Cookies.get("token");
+
     try {
       const response = await fetch(
-        `${process.env.STRAPI_URL || "http://127.0.0.1:1337"}/api/orders`,
+        // `${process.env.STRAPI_URL || "http://127.0.0.1:1337"}/api/orders`,
+        `http://127.0.0.1:1337/api/orders`,
+
         {
           method: "POST",
           headers: userToken && {
@@ -46,32 +51,39 @@ function CheckoutForm() {
             Authorization: `Bearer ${userToken}`,
           },
           body: JSON.stringify({
-            amount: Number(Math.round(appContext.cart.total + "e2") + "e-2"),
-            dishes: appContext.cart.items,
-            address: data.address,
-            city: data.city,
-            state: data.state,
-            token: token.token.id,
+            data: {
+              amount: Number(Math.round(appContext.cart.total + "e2") + "e-2"),
+              dishes: appContext.cart.items,
+              address: data.address,
+              city: data.city,
+              state: data.state,
+              token: token.token.id,
+            },
           }),
         }
       );
+
+      // const response = await fetch(
+      //   `${process.env.STRAPI_URL || "http://127.0.0.1:1337"}/api/orders`,
+      //   {
+      //     method: "POST",
+      //     headers: userToken && {
+      //       "Content-Type": "application/json",
+      //       Authorization: `Bearer ${userToken}`,
+      //     },
+      //     body: JSON.stringify({
+      //       amount: Number(Math.round(appContext.cart.total + "e2") + "e-2"),
+      //       dishes: appContext.cart.items,
+      //       address: data.address,
+      //       city: data.city,
+      //       state: data.state,
+      //       token: token.token.id,
+      //     }),
+      //   }
+      // );
       if (response.status === 200) {
         alert("Transaction Successful, continue your shopping");
         router.push("/");
-        console.log(JSON.stringify(appContext.cart.items));
-        console.log(JSON.stringify(data.address));
-        console.log(JSON.stringify(data.city));
-        console.log(JSON.stringify(data.state));
-        console.log(
-          JSON.stringify({
-            amount: Number(Math.round(appContext.cart.total + "e2") + "e-2"),
-            dishes: appContext.cart.items,
-            address: data.address,
-            city: data.city,
-            state: data.state,
-            token: token.token.id,
-          })
-        );
       } else {
         alert(response.statusText);
       }

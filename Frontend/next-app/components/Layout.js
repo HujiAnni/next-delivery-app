@@ -6,7 +6,7 @@ import { Container, Nav, NavItem } from "reactstrap";
 import { logout } from "../lib/auth";
 import AppContext from "../context/AppContext";
 const Layout = (props) => {
-  const title = "Welcome to Nextjs";
+  const title = "Food Delivery";
   const { user, setUser } = useContext(AppContext);
   return (
     <div>

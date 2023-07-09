@@ -16,6 +16,9 @@ function Checkout() {
   const stripePromise = loadStripe(
     "pk_test_51NOVXdIjINdCr5y7Y5k47g5AZo9zlHEmYEtWsbO3z4EhsHPSftOi9rGacTkKgAlNY0A0g2TXL6Sgx0sAFfuGltK600kMBnfRoY"
   );
+  console.log(`cart items: ${JSON.stringify(appContext.cart.items[0])}`);
+  console.log(`amount: ${appContext.cart.total}`);
+  console.log(`context data: ${JSON.stringify(appContext)}`);
   return (
     <Row>
       <Col style={{ paddingRight: 0 }} sm={{ size: 3, order: 1, offset: 2 }}>

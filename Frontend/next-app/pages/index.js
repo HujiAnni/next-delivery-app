@@ -3,7 +3,8 @@
 import React, { useState } from "react";
 import { Col, Input, InputGroup, InputGroupAddon, Row } from "reactstrap";
 import RestaurantList from "../components/RestaurantList";
-import Cart from "../components/cart/index";
+import Dishes from "@/components/dishes";
+import Cart from "../components/cart";
 import {
   ApolloProvider,
   ApolloClient,
