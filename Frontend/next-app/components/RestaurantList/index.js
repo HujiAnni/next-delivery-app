@@ -54,7 +54,7 @@ function RestaurantList(props) {
       query.attributes.name.toLowerCase().includes(props.search)
     );
     const renderDishes = (restaurantID) => {
-      return <Dishes restId={restaurantID}> </Dishes>;
+      return <Dishes restId={restaurantID} />;
     };
 
     if (searchQuery.length != 0) {
@@ -74,10 +74,13 @@ function RestaurantList(props) {
             </CardBody>
             <div className="card-footer">
               <Link href={`/restaurant/${res.id}`} legacyBehavior>
-                <a className="btn btn-dark">View</a>
+                <a className="btn btn-dark">{res.attributes.name}</a>
               </Link>
-              <Button color="info" onClick={() => setRestaurantID(res.id)}>
-                {res.attributes.name}
+              <Button
+                color="outline-secondary"
+                onClick={() => setRestaurantID(res.id)}
+              >
+                View Dishes
               </Button>
             </div>
           </Card>

@@ -89,6 +89,7 @@ class MyApp extends App {
       );
     }
   };
+
   removeItem = (item) => {
     let { items } = this.state.cart;
     //check for item already in cart
@@ -125,6 +126,16 @@ class MyApp extends App {
       );
     }
   };
+
+  removeAllItem = () => {
+    this.setState(
+      {
+        cart: {},
+      },
+      () => Cookie.set("cart", JSON.stringify(this.state.cart.items))
+    );
+  };
+
   render() {
     const { Component, pageProps } = this.props;
     return (

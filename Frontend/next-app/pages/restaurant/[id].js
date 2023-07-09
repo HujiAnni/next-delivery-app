@@ -3,7 +3,7 @@
 import { useContext } from "react";
 import React, { useState } from "react";
 import { useRouter } from "next/router";
-import { gql, useQuery } from "@apollo/client";
+import { gql, serializeFetchParameter, useQuery } from "@apollo/client";
 import Cart from "../../components/cart/";
 import AppContext from "../../context/AppContext";
 import Dishes from "@/components/dishes";
@@ -16,6 +16,7 @@ import {
   CardTitle,
   Col,
   Row,
+  Container,
   Input,
   InputGroup,
 } from "reactstrap";
@@ -56,14 +57,20 @@ function Restaurants(props) {
   const { loading, error, data } = useQuery(GET_RESTAURANT_DISHES, {
     variables: { id: router.query.id },
   });
+  // console.log(props);
+
   if (error) return "Error Loading Dishes";
   if (loading) return <h1>Loading ...</h1>;
   if (data.restaurant.data.attributes.dishes.data.length) {
     const { restaurant } = data;
+    // console.log(restaurant.data.attributes.dishes.data);
 
     return (
       <>
         <h1>{restaurant.data.attributes.name}</h1>
+
+        <br></br>
+        {/* <Dishes search={query} /> */}
         <div className="search">
           <InputGroup>
             <div className="input-group-append">
@@ -77,11 +84,13 @@ function Restaurants(props) {
             />
           </InputGroup>
         </div>
+
         <br></br>
-        <Dishes search={query} />
         <Row>
           {restaurant.data.attributes.dishes.data.map((res) => {
             let ress = { res };
+            // console.log(ress);
+
             return (
               <Col xs="6" sm="4" style={{ padding: 0 }} key={Math.random()}>
                 <Card style={{ margin: "0 10px" }}>
@@ -99,7 +108,7 @@ function Restaurants(props) {
                   <div className="card-footer">
                     <Button
                       outline
-                      color="primary"
+                      color="secondary"
                       onClick={() => {
                         appContext.addItem(ress);
                       }}
@@ -140,6 +149,7 @@ function Restaurants(props) {
       </>
     );
   }
+
   return <h1>Add Dishes</h1>;
 }
 export default Restaurants;

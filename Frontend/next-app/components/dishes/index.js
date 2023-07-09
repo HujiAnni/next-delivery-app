@@ -24,15 +24,16 @@ function Dishes({ restId }) {
     query ($restaurantId: ID!) {
       restaurant(id: $restaurantId) {
         data {
+          id
           attributes {
             name
             dishes {
               data {
+                id
                 attributes {
                   name
                   description
                   price
-
                   image {
                     data {
                       attributes {
@@ -77,7 +78,7 @@ function Dishes({ restId }) {
                 <CardText>{res.attributes.description}</CardText>
               </CardBody>
               <div className="card-footer">
-                <Button color="info" outline onClick={() => addItems(res)}>
+                <Button color="secondary" outline onClick={() => addItems(res)}>
                   + Add To Cart
                 </Button>
               </div>

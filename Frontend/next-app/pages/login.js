@@ -104,6 +104,28 @@ function Login(props) {
                     >
                       {loading ? "Loading... " : "Submit"}
                     </Button>
+                    <Button
+                      style={{
+                        float: "right",
+                        width: 120,
+                      }}
+                      color="dark"
+                      onClick={() => {
+                        // setLoading(true);
+                        // login(data.identifier, data.password)
+                        //   .then((res) => {
+                        //     setLoading(false);
+                        //     // set authed User in global context to update header/app state
+                        //     appContext.setUser(res.data.user);
+                        //   })
+                        //   .catch((error) => {
+                        //     setError(error.response.data);
+                        //     setLoading(false);
+                        //   });
+                      }}
+                    >
+                      {loading ? "Loading... " : "Google Login"}
+                    </Button>
                   </FormGroup>
                 </fieldset>
               </Form>

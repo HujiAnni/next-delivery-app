@@ -46,7 +46,7 @@ function Cart() {
                               marginLeft: 10,
                             }}
                             onClick={() => appContext.addItem(item)}
-                            color="link"
+                            color="light"
                           >
                             +
                           </Button>
@@ -58,7 +58,7 @@ function Cart() {
                               marginRight: 10,
                             }}
                             onClick={() => appContext.removeItem(item)}
-                            color="link"
+                            color="light"
                           >
                             -
                           </Button>
@@ -97,7 +97,7 @@ function Cart() {
                     }}
                   >
                     <Link href="/checkout">
-                      <Button style={{ width: "100%" }} color="primary">
+                      <Button style={{ width: "100%" }} color="dark">
                         <a>Order</a>
                       </Button>
                     </Link>

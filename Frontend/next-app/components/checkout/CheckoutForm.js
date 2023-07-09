@@ -25,8 +25,8 @@ function CheckoutForm() {
     const updateItem = (data[e.target.name] = e.target.value);
     // update the state data object
     setData({ ...data, updateItem });
-    console.log(data);
-    console.log(data.address);
+    // console.log(data);
+    // console.log(data.address);
   }
 
   async function submitOrder() {
@@ -83,6 +83,7 @@ function CheckoutForm() {
       // );
       if (response.status === 200) {
         alert("Transaction Successful, continue your shopping");
+        appContext.removeItem();
         router.push("/");
       } else {
         alert(response.statusText);
