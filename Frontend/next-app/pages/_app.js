@@ -127,14 +127,14 @@ class MyApp extends App {
     }
   };
 
-  removeAllItem = () => {
-    this.setState(
-      {
-        cart: {},
-      },
-      () => Cookie.set("cart", JSON.stringify(this.state.cart.items))
-    );
-  };
+  // removeAllItem = () => {
+  //   this.setState(
+  //     {
+  //       cart: {},
+  //     },
+  //     () => Cookie.set("cart", JSON.stringify({}))
+  //   );
+  // };
 
   render() {
     const { Component, pageProps } = this.props;

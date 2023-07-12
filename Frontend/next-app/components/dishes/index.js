@@ -16,7 +16,7 @@ import {
   Container,
 } from "reactstrap";
 
-function Dishes({ restId }) {
+function Dishes({ restId, query }) {
   const [restaurantId, setRestaurantId] = useState();
   const { addItem } = useContext(AppContext);
 
@@ -59,13 +59,39 @@ function Dishes({ restId }) {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>ERROR here</p>;
   if (!data) return <p>Not found</p>;
-
+  console.log(restId);
   let restaurant = data.restaurant;
+  // console.log(restaurant.data.attributes.dishes.data[0]);
 
   if (restId > 0) {
     return (
       <>
         {restaurant.data.attributes.dishes.data.map((res) => (
+          <Col xs="6" sm="4" style={{ padding: 0 }} key={{ res }.id}>
+            <Card style={{ margin: "0 10px" }}>
+              <CardImg
+                top={true}
+                style={{ height: 150, width: 150 }}
+                src={`http://localhost:1337${res.attributes.image.data.attributes.url}`}
+              />
+              <CardBody>
+                <CardTitle>{res.attributes.name}</CardTitle>
+                <CardText>{res.attributes.description}</CardText>
+                <CardText>{res.attributes.price}</CardText>
+              </CardBody>
+              <div className="card-footer">
+                <Button
+                  color="secondary"
+                  outline
+                  onClick={() => addItem({ res })}
+                >
+                  + Add To Cart
+                </Button>
+              </div>
+            </Card>
+          </Col>
+        ))}
+        {/* {restaurant.data.attributes.dishes.data.map((res) => (
           <Col xs="6" sm="4" style={{ padding: 0 }} key={res.id}>
             <Card style={{ margin: "0 10px" }}>
               <CardImg
@@ -78,13 +104,13 @@ function Dishes({ restId }) {
                 <CardText>{res.attributes.description}</CardText>
               </CardBody>
               <div className="card-footer">
-                <Button color="secondary" outline onClick={() => addItems(res)}>
+                <Button color="secondary" outline onClick={() => addItem(res)}>
                   + Add To Cart
                 </Button>
               </div>
             </Card>
           </Col>
-        ))}
+        ))} */}
       </>
     );
   } else {

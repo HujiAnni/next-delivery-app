@@ -83,7 +83,7 @@ function CheckoutForm() {
       // );
       if (response.status === 200) {
         alert("Transaction Successful, continue your shopping");
-        appContext.removeItem();
+        // appContext.removeItem();
         router.push("/");
       } else {
         alert(response.statusText);
